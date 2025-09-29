@@ -26,6 +26,8 @@
     <h2>Menu</h2>
     <div class="btn-col">
       <button onclick="showPage('page-sites')">🌐 Sites</button>
+      <button onclick="showPage('page-criar-site')">➕ Criar Site</button>
+      <button onclick="showPage('page-editar-site')">✏️ Editar Site</button>
       <button onclick="showPage('page-pessoas')">👤 Pessoas</button>
       <button onclick="showPage('page-chat')">💬 Chat Global</button>
       <button onclick="showPage('page-perfil')">⚙️ Perfil</button>
@@ -36,7 +38,7 @@
   <!-- SITES -->
   <section id="page-sites" class="hidden">
     <h2>Sites</h2>
-    <input type="text" id="search-sites" placeholder="Buscar site...">
+    <input type="text" id="search-sites" placeholder="Buscar site..." oninput="loadSites()">
     <ul id="sites-list"></ul>
   </section>
 
@@ -45,7 +47,7 @@
     <h2>Criar Site</h2>
     <input type="text" id="novo-site-nome" placeholder="Nome do site">
     <div id="md-help">
-      Sintaxe Markdown básica: **negrito**, *itálico*, # Título
+      Sintaxe Markdown: **negrito**, *itálico*, # Título
     </div>
     <textarea id="novo-site-conteudo" placeholder="Conteúdo do site (Markdown)"></textarea>
     <button onclick="createSite()">Criar Site</button>
@@ -54,8 +56,19 @@
   <!-- EDITAR SITE -->
   <section id="page-editar-site" class="hidden">
     <h2>Editar Site</h2>
-    <input type="text" id="search-meus-sites" placeholder="Buscar meus sites...">
+    <input type="text" id="search-meus-sites" placeholder="Buscar meus sites..." oninput="loadMeusSites()">
     <ul id="meus-sites-list"></ul>
+  </section>
+
+  <!-- ABRIR SITE -->
+  <section id="page-abrir-site" class="hidden">
+    <h2 id="abrir-site-titulo"></h2>
+    <div><b>Criado por:</b> <span id="abrir-site-autor"></span></div>
+    <div><b>Data:</b> <span id="abrir-site-data"></span></div>
+    <div id="abrir-site-conteudo"></div>
+    <div><b>Visualizações:</b> <span id="abrir-site-views"></span></div>
+    <div><b>Seguidores:</b> <span id="abrir-site-seguidores"></span></div>
+    <button id="seguir-btn"></button>
   </section>
 
   <!-- PESSOAS -->
@@ -93,7 +106,6 @@
     </div>
   </section>
 
-  <!-- Supabase + Script -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js"></script>
 </body>

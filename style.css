@@ -30,6 +30,8 @@ input, textarea, button {
 textarea {
   resize: none;
   height: 50px;
+  background: #222;
+  color: #f0f0f0;
 }
 
 button {
@@ -37,10 +39,10 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+  font-size: 14px;
+  padding: 5px 10px;
 }
-button:hover {
-  background: #8b5e3c;
-}
+button:hover { background: #8b5e3c; }
 
 .btn-row, .btn-col {
   display: flex;
@@ -49,12 +51,7 @@ button:hover {
   flex-wrap: wrap;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-  max-width: 600px;
-  margin: auto;
-}
+ul { list-style: none; padding: 0; max-width: 600px; margin: auto; }
 
 #chat-messages {
   border: 1px solid #555;
@@ -68,31 +65,9 @@ ul {
   text-align: left;
 }
 
-.message {
-  margin: 5px 0;
-  padding: 5px;
-  border-radius: 4px;
-}
+.message { margin: 5px 0; padding: 5px; border-radius: 4px; }
+.message.me { background: #4c8f4c; text-align: right; }
+.message.other { background: #555; text-align: left; }
 
-.message.me {
-  background: #4c8f4c;
-  text-align: right;
-}
-
-.message.other {
-  background: #555;
-  text-align: left;
-}
-
-.chat-input {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  margin: 10px auto;
-  width: 90%;
-  max-width: 500px;
-}
-.chat-input textarea {
-  flex: 1;
-}
+.chat-input { display: flex; justify-content: center; align-items: center; gap: 5px; margin: 10px auto; width: 90%; max-width: 500px; }
+.chat-input textarea { flex: 1; }
