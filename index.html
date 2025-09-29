@@ -10,41 +10,41 @@
     <h1 id="logo">☕ Capuccino Sites</h1>
   </header>
 
-  <!-- Login -->
+  <!-- LOGIN -->
   <section id="page-login">
     <h2>Login</h2>
     <input type="text" id="username" placeholder="Usuário">
     <input type="password" id="password" placeholder="Senha">
     <div class="btn-row">
       <button onclick="login()">Entrar</button>
-      <button onclick="register()">Criar conta</button>
+      <button onclick="register()">Criar Conta</button>
     </div>
   </section>
 
-  <!-- Menu -->
+  <!-- MENU -->
   <section id="page-menu" class="hidden">
     <h2>Menu</h2>
     <div class="btn-col">
-      <button onclick="showPage('sites')">🌐 Sites</button>
-      <button onclick="showPage('pessoas')">👤 Pessoas</button>
-      <button onclick="showPage('chat')">💬 Chat Global</button>
+      <button onclick="showPage('page-sites')">🌐 Sites</button>
+      <button onclick="showPage('page-pessoas')">👤 Pessoas</button>
+      <button onclick="showPage('page-chat')">💬 Chat Global</button>
     </div>
   </section>
 
-  <!-- Sites -->
+  <!-- SITES -->
   <section id="page-sites" class="hidden">
     <h2>Sites</h2>
     <input type="text" id="search-sites" placeholder="Buscar site...">
     <ul id="sites-list"></ul>
   </section>
 
-  <!-- Pessoas -->
+  <!-- PESSOAS -->
   <section id="page-pessoas" class="hidden">
     <h2>Pessoas</h2>
     <ul id="pessoas-list"></ul>
   </section>
 
-  <!-- Chat Global -->
+  <!-- CHAT GLOBAL -->
   <section id="page-chat" class="hidden">
     <h2>Chat Global</h2>
     <div id="chat-messages"></div>
@@ -54,7 +54,7 @@
     </div>
   </section>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
 </body>
 </html>
