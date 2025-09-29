@@ -16,16 +16,34 @@ function showPage(page) {
 document.getElementById("logo").onclick = () => showPage("menu");
 
 // === Login / Registro ===
-async function login() {
-  const user = document.getElementById("username").value.trim();
-  const pass = document.getElementById("password").value.trim();
-  if (!user || !pass) return alert("Preencha todos os campos.");
+window.login = async function(){
+  const u = document.getElementById('username').value.trim()
+  const p = document.getElementById('password').value.trim()
 
-  const { data, error } = await db.from("login").select("*").eq("username", user).eq("password", pass).single();
-  if (error || !data) return alert("Usuário ou senha incorretos.");
+  if(!u || !p){
+    alert("Preencha usuário e senha!")
+    return
+  }
 
-  currentUser = data;
-  showPage("menu");
+  const { data, error } = await supabase
+    .from("login")
+    .select("*")
+    .eq("nome", u)
+    .eq("senha", p)
+
+  if(error){
+    console.error("Erro Supabase:", error)
+    alert("Erro ao conectar no banco. Veja o console.")
+    return
+  }
+
+  if(data && data.length > 0){
+    currentUser = u
+    console.log("Login OK:", currentUser)
+    showPage("page-menu")
+  } else {
+    alert("Usuário ou senha incorretos.")
+  }
 }
 
 async function register() {
