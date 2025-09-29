@@ -18,8 +18,16 @@ async function login() {
   const p = document.getElementById("password").value.trim();
   if (!u || !p) return alert("Preencha todos os campos.");
 
-  const { data, error } = await supabase.from("login").select("*").eq("nome", u).eq("senha", p);
-  if (error) return alert("Erro Supabase: " + error.message);
+  const { data, error } = await supabase
+    .from("login")
+    .select("id, nome, senha")   // ignorando "seguidores"
+    .eq("nome", u)
+    .eq("senha", p);
+
+  if (error) {
+    console.error("Erro Supabase:", error);
+    return alert("Erro ao conectar no banco. Veja o console.");
+  }
 
   if (data && data.length > 0) {
     currentUser = data[0];
