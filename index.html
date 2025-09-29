@@ -1,72 +1,59 @@
-<!doctype html>
-<button class="btn-small" id="chatBtn">Chat Global</button>
-<button class="btn-small" id="createAccountBtn">Criar Conta</button>
-</nav>
-</header>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Capuccino Sites</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1 id="logo">☕ Capuccino Sites</h1>
+  </header>
 
+  <!-- Login -->
+  <section id="page-login">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Usuário">
+    <input type="password" id="password" placeholder="Senha">
+    <div class="btn-row">
+      <button onclick="login()">Entrar</button>
+      <button onclick="register()">Criar conta</button>
+    </div>
+  </section>
 
-<main>
-<section id="menuView" class="card">
-<h3>Menu</h3>
-<p class="small">Escolha uma função.</p>
-<div style="margin-top:8px" class="flex">
-<button class="btn-small" id="goSites">Ir para Sites</button>
-<button class="btn-small" id="goPessoas">Ir para Pessoas</button>
-<button class="btn-small" id="goChat">Ir para Chat Global</button>
-</div>
-<div style="margin-top:12px" class="card">
-<strong>Nota:</strong> haverá uma nova função (aguarde mensagens futuras). Não criei nada extra ainda.
-</div>
-</section>
+  <!-- Menu -->
+  <section id="page-menu" class="hidden">
+    <h2>Menu</h2>
+    <div class="btn-col">
+      <button onclick="showPage('sites')">🌐 Sites</button>
+      <button onclick="showPage('pessoas')">👤 Pessoas</button>
+      <button onclick="showPage('chat')">💬 Chat Global</button>
+    </div>
+  </section>
 
+  <!-- Sites -->
+  <section id="page-sites" class="hidden">
+    <h2>Sites</h2>
+    <input type="text" id="search-sites" placeholder="Buscar site...">
+    <ul id="sites-list"></ul>
+  </section>
 
-<section id="sitesView" class="card hidden">
-<h3>Sites</h3>
-<div class="row" style="margin-top:8px">
-<input type="text" id="siteSearch" placeholder="Pesquisar sites (nome/url)..." />
-<button class="btn-small" id="searchBtn">Buscar</button>
-</div>
-<div id="sitesList" class="list" style="margin-top:10px"></div>
-</section>
+  <!-- Pessoas -->
+  <section id="page-pessoas" class="hidden">
+    <h2>Pessoas</h2>
+    <ul id="pessoas-list"></ul>
+  </section>
 
+  <!-- Chat Global -->
+  <section id="page-chat" class="hidden">
+    <h2>Chat Global</h2>
+    <div id="chat-messages"></div>
+    <div class="chat-input">
+      <textarea id="chat-text" placeholder="Escreva sua mensagem..."></textarea>
+      <button onclick="sendChat()">Enviar</button>
+    </div>
+  </section>
 
-<section id="pessoasView" class="card hidden">
-<h3>Pessoas</h3>
-<div class="small">Formato: [ nome | ver sites | conversar | seguir ]</div>
-<div id="pessoasList" style="margin-top:10px" class="list"></div>
-</section>
-
-
-<section id="chatView" class="card hidden">
-<h3>Chat Global</h3>
-<div class="small">Mensagens públicas. Texto + horário + autor. Cada pessoa tem uma cor.</div>
-<div id="chatList" class="chat-list"></div>
-<div style="margin-top:8px" class="flex">
-<textarea id="chatInput" placeholder="Escreva sua mensagem..."></textarea>
-<div style="width:110px;display:flex;flex-direction:column;gap:8px">
-<button class="btn-primary btn-small" id="sendChat">Enviar</button>
-<button class="btn-small" id="clearChat">Limpar (apenas local)</button>
-</div>
-</div>
-</section>
-
-
-<section id="createAccountView" class="card hidden">
-<h3>Criar Conta</h3>
-<div class="small">Preencha os dois campos — o botão não deve mais só alertar.</div>
-<div style="margin-top:8px" class="flex">
-<input type="text" id="newName" placeholder="Seu nome (ex: Raul)" />
-<input type="text" id="newHandle" placeholder="ID/handle (único)" />
-<button class="btn-primary btn-small" id="saveAccount">Criar</button>
-</div>
-<div id="createMsg" class="small" style="margin-top:8px;color:var(--muted)"></div>
-</section>
-</main>
-
-
-<footer>Capuccino — reconstruído. Se algo estiver feio, culpe os botões grandes do passado — agora estão menores.</footer>
-
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

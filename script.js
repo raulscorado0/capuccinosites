@@ -1,131 +1,112 @@
-// script.js
+// 🔑 Config Supabase
+const SUPABASE_URL = "https://YOUR_PROJECT.supabase.co";
+const SUPABASE_KEY = "YOUR_ANON_KEY";
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Navegação entre views
-const views = {
-  menu: document.getElementById("menuView"),
-  sites: document.getElementById("sitesView"),
-  pessoas: document.getElementById("pessoasView"),
-  chat: document.getElementById("chatView"),
-  create: document.getElementById("createAccountView"),
-};
+let currentUser = null;
 
-function show(view) {
-  Object.values(views).forEach(v => v.classList.add("hidden"));
-  views[view].classList.remove("hidden");
+// === Navegação ===
+function showPage(page) {
+  document.querySelectorAll("section").forEach(sec => sec.classList.add("hidden"));
+  if (page === "menu") document.getElementById("page-menu").classList.remove("hidden");
+  if (page === "sites") { loadSites(); document.getElementById("page-sites").classList.remove("hidden"); }
+  if (page === "pessoas") { loadPessoas(); document.getElementById("page-pessoas").classList.remove("hidden"); }
+  if (page === "chat") { loadChatGlobal(); document.getElementById("page-chat").classList.remove("hidden"); }
+}
+document.getElementById("logo").onclick = () => showPage("menu");
+
+// === Login / Registro ===
+async function login() {
+  const user = document.getElementById("username").value.trim();
+  const pass = document.getElementById("password").value.trim();
+  if (!user || !pass) return alert("Preencha todos os campos.");
+
+  const { data, error } = await db.from("login").select("*").eq("username", user).eq("password", pass).single();
+  if (error || !data) return alert("Usuário ou senha incorretos.");
+
+  currentUser = data;
+  showPage("menu");
 }
 
-document.getElementById("menuBtn").onclick = () => show("menu");
-document.getElementById("sitesBtn").onclick = () => show("sites");
-document.getElementById("pessoasBtn").onclick = () => show("pessoas");
-document.getElementById("chatBtn").onclick = () => show("chat");
-document.getElementById("createAccountBtn").onclick = () => show("create");
-document.getElementById("logo").onclick = () => show("menu");
+async function register() {
+  const user = document.getElementById("username").value.trim();
+  const pass = document.getElementById("password").value.trim();
+  if (!user || !pass) return alert("Preencha todos os campos.");
 
-document.getElementById("goSites").onclick = () => show("sites");
-document.getElementById("goPessoas").onclick = () => show("pessoas");
-document.getElementById("goChat").onclick = () => show("chat");
+  const { error } = await db.from("login").insert([{ username: user, password: pass, seguidores: [] }]);
+  if (error) return alert("Erro ao criar conta: " + error.message);
+  alert("Conta criada com sucesso!");
+}
 
-// Criar conta
-const saveAccountBtn = document.getElementById("saveAccount");
-saveAccountBtn.onclick = () => {
-  const nome = document.getElementById("newName").value.trim();
-  const handle = document.getElementById("newHandle").value.trim();
-  const msg = document.getElementById("createMsg");
-  if(!nome || !handle){
-    msg.textContent = "Preencha os dois campos!";
-    msg.style.color = "tomato";
-    return;
+// === Sites ===
+async function loadSites() {
+  const { data, error } = await db.from("sites").select("*");
+  if (error) return alert("Erro carregando sites.");
+
+  const list = document.getElementById("sites-list");
+  list.innerHTML = "";
+
+  const search = document.getElementById("search-sites").value.toLowerCase();
+  data.filter(s => s.nome.toLowerCase().includes(search)).forEach(site => {
+    const li = document.createElement("li");
+    li.textContent = site.nome + " → " + site.url;
+    list.appendChild(li);
+  });
+}
+document.getElementById("search-sites").addEventListener("input", loadSites);
+
+// === Pessoas ===
+async function loadPessoas() {
+  const { data, error } = await db.from("login").select("*");
+  if (error) return alert("Erro carregando pessoas.");
+
+  const list = document.getElementById("pessoas-list");
+  list.innerHTML = "";
+
+  // Eu primeiro
+  if (currentUser) {
+    const li = renderPessoa(currentUser, true);
+    list.appendChild(li);
   }
-  msg.textContent = `Conta criada: ${nome} (@${handle})`;
-  msg.style.color = "lightgreen";
-};
 
-// Sites (mock data)
-const sites = [
-  {nome:"Capuccino", url:"https://capuccino.sites"},
-  {nome:"RaulinhoBlog", url:"https://raul.blog"},
-  {nome:"Teste", url:"https://teste.com"}
-];
+  data.filter(p => !currentUser || p.id !== currentUser.id).forEach(pessoa => {
+    const li = renderPessoa(pessoa, false);
+    list.appendChild(li);
+  });
+}
 
-const sitesList = document.getElementById("sitesList");
-function renderSites(list){
-  sitesList.innerHTML = "";
-  list.forEach(s => {
+function renderPessoa(pessoa, isMe) {
+  const li = document.createElement("li");
+  const nome = isMe ? pessoa.username + " (eu)" : pessoa.username;
+  li.innerHTML = `[ ${nome} | <button>Ver sites</button> | <button>Conversar</button> | <button>Seguir</button> ]`;
+  return li;
+}
+
+// === Chat Global ===
+async function loadChatGlobal() {
+  const { data, error } = await db.from("chat_global").select("*").order("created_at", { ascending: true });
+  if (error) return alert("Erro carregando chat.");
+
+  const box = document.getElementById("chat-messages");
+  box.innerHTML = "";
+
+  data.forEach(msg => {
     const div = document.createElement("div");
-    div.className = "pill";
-    div.innerHTML = `<strong>${s.nome}</strong> — <a href="${s.url}" target="_blank">${s.url}</a>`;
-    sitesList.appendChild(div);
+    div.className = "message " + (currentUser && msg.de === currentUser.username ? "me" : "other");
+    div.innerHTML = `<b>${msg.de}</b> [${new Date(msg.created_at).toLocaleTimeString()}]: ${msg.texto}`;
+    box.appendChild(div);
   });
+
+  box.scrollTop = box.scrollHeight;
 }
-renderSites(sites);
 
-document.getElementById("searchBtn").onclick = () => {
-  const q = document.getElementById("siteSearch").value.toLowerCase();
-  const res = sites.filter(s => s.nome.toLowerCase().includes(q) || s.url.toLowerCase().includes(q));
-  renderSites(res);
-};
+async function sendChat() {
+  const text = document.getElementById("chat-text").value.trim();
+  if (!text || !currentUser) return;
 
-// Pessoas (mock)
-const pessoasList = document.getElementById("pessoasList");
-const pessoas = [
-  {nome:"Raul (você)", cor:"#b78a4b", seguidores:[]},
-  {nome:"Poeta Misterioso", cor:"#4b9cb7", seguidores:["Raul"]},
-  {nome:"Canetinhas Secas", cor:"#b74b4b", seguidores:[]},
-];
+  const { error } = await db.from("chat_global").insert([{ de: currentUser.username, texto: text }]);
+  if (error) return alert("Erro enviando mensagem: " + error.message);
 
-function renderPessoas(){
-  pessoasList.innerHTML = "";
-  pessoas.forEach(p => {
-    const row = document.createElement("div");
-    row.className = "people-row";
-    row.innerHTML = `
-      <div class="people-left">
-        <div class="avatar" style="background:${p.cor}">${p.nome[0]}</div>
-        <div>
-          <div>${p.nome}</div>
-          <div class="small">Seguidores: ${p.seguidores.length}</div>
-        </div>
-      </div>
-      <div class="actions">
-        <button class="btn-small">Ver sites</button>
-        <button class="btn-small">Conversar</button>
-        <button class="btn-small">Seguir</button>
-      </div>
-    `;
-    pessoasList.appendChild(row);
-  });
+  document.getElementById("chat-text").value = "";
+  loadChatGlobal();
 }
-renderPessoas();
-
-// Chat Global (mock)
-const chatList = document.getElementById("chatList");
-let chatData = [
-  {id:1,de:"teste",texto:"blaaaaaa",created_at:"2025-09-29 19:09:01"}
-];
-
-function renderChat(){
-  chatList.innerHTML = "";
-  chatData.forEach(m => {
-    const div = document.createElement("div");
-    div.className = "msg";
-    div.style.background = m.de==="Raul" ? "#2e3a20" : "#1e2a38";
-    div.innerHTML = `<div class="meta">${m.de} — ${m.created_at}</div>${m.texto}`;
-    chatList.appendChild(div);
-  });
-  chatList.scrollTop = chatList.scrollHeight;
-}
-renderChat();
-
-const sendChat = document.getElementById("sendChat");
-sendChat.onclick = () => {
-  const val = document.getElementById("chatInput").value.trim();
-  if(!val) return;
-  chatData.push({id:chatData.length+1, de:"Raul", texto:val, created_at:new Date().toISOString()});
-  document.getElementById("chatInput").value = "";
-  renderChat();
-};
-
-document.getElementById("clearChat").onclick = () => {
-  chatData = [];
-  renderChat();
-};
