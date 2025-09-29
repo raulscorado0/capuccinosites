@@ -1,9 +1,14 @@
 // 🔑 Supabase
+// espera supabase.js estar carregado
 const SUPABASE_URL = "https://fytwrvzwigkimbnujpke.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5dHdydnp3aWdraW1ibnVqcGtlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNTU4MjMsImV4cCI6MjA3NDczMTgyM30.4okRydCY0I0ftKo1zTVIOVHT8j1OW70BJW2uXHUfFDY";
 
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-let currentUser = null;
+let supabaseClient;
+
+window.addEventListener('DOMContentLoaded', () => {
+  supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+});
+
 
 // === Navegação ===
 function showPage(page) {
