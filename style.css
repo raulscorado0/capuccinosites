@@ -1,100 +1,31 @@
-body {
-  font-family: sans-serif;
-  padding: 20px;
-  max-width: 800px;
-  margin: auto;
-  background-color: #1e1e1e;
-  color: #f0f0f0;
+:root{
+--bg:#0f1724; --card:#0b1220; --accent:#b78a4b; --muted:#94a3b8; --text:#e6eef8;
 }
-
-h1 {
-  text-align: center;
-  color: #d4a373;
-}
-
-input, textarea, button {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #555;
-  background-color: #2b2b2b;
-  color: #f0f0f0;
-}
-
-button {
-  background-color: #c49a6c;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #b5835a;
-}
-
-section {
-  margin-top: 20px;
-}
-
-/* Tabelas de sites */
-.sites-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  background-color: #2b2b2b;
-}
-
-.sites-table th, .sites-table td {
-  border: 1px solid #555;
-  padding: 8px;
-  text-align: left;
-}
-
-.sites-table th {
-  background-color: #6b4f4f;
-  color: white;
-}
-
-.sites-table tbody tr:nth-child(even) {
-  background-color: #3a3a3a;
-}
-
-/* Menu modo escuro */
-#page-menu {
-  background-color: #2b2b2b;
-  color: #f0f0f0;
-  padding: 20px;
-  border-radius: 8px;
-}
-
-#page-menu button {
-  background-color: #6b4f4f;
-  color: white;
-}
-
-#page-menu button:hover {
-  background-color: #543c3c;
-}
-
-/* Markdown syntax hint */
-#md-syntax ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-/* Textareas Markdown (criar e editar) */
-textarea#novo-site-conteudo, textarea#edit-site-conteudo {
-  background-color: #2b2b2b;
-  color: #f0e6d2;
-  border: 1px solid #555;
-  padding: 10px;
-  font-family: monospace;
-  font-size: 14px;
-  border-radius: 6px;
-}
-
-/* Inputs do formulário também mais cozy */
-input, textarea {
-  font-size: 14px;
-}
+*{box-sizing:border-box;font-family:Inter, system-ui, sans-serif}
+body{margin:0;background:linear-gradient(180deg,#071120 0%,#081426 100%);color:var(--text);}
+header{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo .cup{width:34px;height:34px;border-radius:8px;background:var(--accent);display:grid;place-items:center;font-weight:700;color:#081020}
+.title{font-weight:700}
+nav{margin-left:auto;display:flex;gap:8px}
+button{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+.btn-small{padding:6px 10px;font-size:13px;border-radius:6px}
+main{padding:18px;max-width:1050px;margin:16px auto}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);padding:12px;border-radius:12px;margin-bottom:12px}
+.flex{display:flex;gap:10px;align-items:center}
+.list{display:flex;flex-direction:column;gap:8px}
+.row{display:flex;align-items:center;gap:8px}
+.pill{background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-size:14px}
+input[type=text], textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)}
+textarea{min-height:72px;resize:vertical}
+.people-row{display:flex;align-items:center;justify-content:space-between;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);}
+.people-left{display:flex;align-items:center;gap:10px}
+.avatar{width:40px;height:40px;border-radius:8px;display:grid;place-items:center;font-weight:700}
+.small{font-size:13px;color:var(--muted)}
+.chat-list{display:flex;flex-direction:column;gap:8px;max-height:360px;overflow:auto;padding:6px}
+.msg{padding:8px;border-radius:10px;max-width:70%}
+.meta{font-size:12px;color:var(--muted);margin-bottom:6px}
+.actions{display:flex;gap:6px}
+.btn-primary{background:var(--accent);color:#081020;border:none}
+.hidden{display:none}
+footer{padding:12px;text-align:center;color:var(--muted);font-size:13px}
