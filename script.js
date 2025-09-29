@@ -194,20 +194,20 @@ async function loadChatGlobal() {
   const { data, error } = await supabaseClient.from("chat_global").select("*").order("created_at", { ascending: true });
   if (error) return alert("Erro ao carregar chat: " + error.message);
 
-  const box = document.getElementById("chat-messages");
-  box.innerHTML = "";
+  const chatDiv = document.getElementById("chat-messages");
+  chatDiv.innerHTML = "";
   data.forEach(msg => {
     const div = document.createElement("div");
-    div.className = "message " + (currentUser && msg.de === currentUser.nome ? "me" : "other");
-    div.innerHTML = `<b>${msg.de}</b> [${new Date(msg.created_at).toLocaleTimeString()}]: ${msg.texto}`;
-    box.appendChild(div);
+    div.className = msg.de === currentUser.nome ? "message me" : "message other";
+    div.textContent = `[${new Date(msg.created_at).toLocaleTimeString()}] ${msg.de}: ${msg.texto}`;
+    chatDiv.appendChild(div);
   });
-  box.scrollTop = box.scrollHeight;
+  chatDiv.scrollTop = chatDiv.scrollHeight;
 }
 
 async function sendChat() {
   const text = document.getElementById("chat-text").value.trim();
-  if (!text || !currentUser) return;
+  if (!text) return;
 
   const { error } = await supabaseClient.from("chat_global").insert([{ de: currentUser.nome, texto: text }]);
   if (error) return alert("Erro enviando mensagem: " + error.message);
