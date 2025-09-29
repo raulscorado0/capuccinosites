@@ -1,0 +1,100 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+}
+
+h1 {
+  text-align: center;
+  color: #d4a373;
+}
+
+input, textarea, button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background-color: #2b2b2b;
+  color: #f0f0f0;
+}
+
+button {
+  background-color: #c49a6c;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #b5835a;
+}
+
+section {
+  margin-top: 20px;
+}
+
+/* Tabelas de sites */
+.sites-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #2b2b2b;
+}
+
+.sites-table th, .sites-table td {
+  border: 1px solid #555;
+  padding: 8px;
+  text-align: left;
+}
+
+.sites-table th {
+  background-color: #6b4f4f;
+  color: white;
+}
+
+.sites-table tbody tr:nth-child(even) {
+  background-color: #3a3a3a;
+}
+
+/* Menu modo escuro */
+#page-menu {
+  background-color: #2b2b2b;
+  color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+#page-menu button {
+  background-color: #6b4f4f;
+  color: white;
+}
+
+#page-menu button:hover {
+  background-color: #543c3c;
+}
+
+/* Markdown syntax hint */
+#md-syntax ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* Textareas Markdown (criar e editar) */
+textarea#novo-site-conteudo, textarea#edit-site-conteudo {
+  background-color: #2b2b2b;
+  color: #f0e6d2;
+  border: 1px solid #555;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+/* Inputs do formulário também mais cozy */
+input, textarea {
+  font-size: 14px;
+}

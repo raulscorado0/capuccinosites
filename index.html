@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Capuccino Sites</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Capuccino Sites ☕</h1>
+
+  <!-- LOGIN -->
+  <section id="page-login">
+    <form id="login-form">
+      <input type="text" id="username" placeholder="Nome de usuário" required />
+      <input type="password" id="password" placeholder="Senha" required />
+      <button type="submit">Entrar</button>
+      <button type="button" id="btn-criar-conta">Criar Conta</button>
+    </form>
+  </section>
+
+  <!-- MENU -->
+  <section id="page-menu" style="display:none;">
+    <button id="btn-sair">Sair</button>
+    <button id="btn-sites">Sites</button>
+    <button id="btn-criar-site">Criar Site</button>
+    <button id="btn-editar-site">Editar Site</button>
+  </section>
+
+  <!-- SITES -->
+  <section id="page-sites" style="display:none;">
+    <button onclick="goBack()">..</button>
+    <input type="text" id="search-sites" placeholder="Buscar sites..." />
+    <h3>Sites que sigo</h3>
+    <table id="followed-list" class="sites-table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Criado por</th>
+          <th>Criado em</th>
+          <th>Abrir</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <h3>Todos os sites</h3>
+    <table id="sites-list" class="sites-table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Criado por</th>
+          <th>Criado em</th>
+          <th>Abrir</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- CRIAR SITE -->
+  <section id="page-criar-site" style="display:none;">
+    <button onclick="goBack()">..</button>
+    <input type="text" id="novo-site-nome" placeholder="Nome do site" />
+    <div id="md-syntax">
+      <p><strong>Markdown Simples:</strong></p>
+      <ul>
+        <li># Título</li>
+        <li>**negrito**</li>
+        <li>*itálico*</li>
+        <li>- lista</li>
+        <li>[link](url)</li>
+      </ul>
+    </div>
+    <textarea id="novo-site-conteudo" placeholder="Conteúdo em Markdown"></textarea>
+    <button id="btn-criar-site-final">Criar Site</button>
+  </section>
+
+  <!-- EDITAR SITE -->
+  <section id="page-editar-site" style="display:none;">
+    <button onclick="goBack()">..</button>
+    <input type="text" id="search-meus-sites" placeholder="Pesquisar meus sites..." />
+    <div id="meus-sites-list"></div>
+    <div id="edit-area" style="display:none;">
+      <input type="text" id="edit-site-nome" />
+      <textarea id="edit-site-conteudo"></textarea>
+      <button id="btn-salvar-edicao">Salvar Alterações</button>
+    </div>
+  </section>
+
+  <!-- VISUALIZAR SITE -->
+  <section id="page-site-view" style="display:none;">
+    <button onclick="goBack()">..</button>
+    <h2 id="view-site-title"></h2>
+    <p><small>Criado por <span id="view-site-author"></span> em <span id="view-site-date"></span></small></p>
+    <div id="view-site-content"></div>
+    <p>Visualizações: <span id="view-site-views"></span></p>
+    <button id="btn-follow">Seguir</button>
+    <p>Seguidores: <span id="view-site-followers"></span></p>
+  </section>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
