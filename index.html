@@ -28,6 +28,8 @@
       <button onclick="showPage('page-sites')">🌐 Sites</button>
       <button onclick="showPage('page-pessoas')">👤 Pessoas</button>
       <button onclick="showPage('page-chat')">💬 Chat Global</button>
+      <button onclick="showPage('page-perfil')">⚙️ Perfil</button>
+      <button onclick="logout()">🚪 Sair</button>
     </div>
   </section>
 
@@ -36,6 +38,24 @@
     <h2>Sites</h2>
     <input type="text" id="search-sites" placeholder="Buscar site...">
     <ul id="sites-list"></ul>
+  </section>
+
+  <!-- CRIAR SITE -->
+  <section id="page-criar-site" class="hidden">
+    <h2>Criar Site</h2>
+    <input type="text" id="novo-site-nome" placeholder="Nome do site">
+    <div id="md-help">
+      Sintaxe Markdown básica: **negrito**, *itálico*, # Título
+    </div>
+    <textarea id="novo-site-conteudo" placeholder="Conteúdo do site (Markdown)"></textarea>
+    <button onclick="createSite()">Criar Site</button>
+  </section>
+
+  <!-- EDITAR SITE -->
+  <section id="page-editar-site" class="hidden">
+    <h2>Editar Site</h2>
+    <input type="text" id="search-meus-sites" placeholder="Buscar meus sites...">
+    <ul id="meus-sites-list"></ul>
   </section>
 
   <!-- PESSOAS -->
@@ -51,6 +71,25 @@
     <div class="chat-input">
       <textarea id="chat-text" placeholder="Escreva sua mensagem..."></textarea>
       <button onclick="sendChat()">Enviar</button>
+    </div>
+  </section>
+
+  <!-- PERFIL -->
+  <section id="page-perfil" class="hidden">
+    <h2>Meu Perfil</h2>
+    <div>
+      <h3>Quem me segue</h3>
+      <ul id="meus-seguidores"></ul>
+    </div>
+    <div>
+      <h3>Meus sites</h3>
+      <ul id="meus-sites-perfil"></ul>
+    </div>
+    <div>
+      <h3>Editar dados</h3>
+      <input type="text" id="novo-nome" placeholder="Novo nome">
+      <input type="password" id="nova-senha" placeholder="Nova senha">
+      <button onclick="updatePerfil()">Atualizar Perfil</button>
     </div>
   </section>
 
