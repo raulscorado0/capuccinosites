@@ -1,8 +1,8 @@
-// 🔑 Supabase real
+// 🔑 Supabase
 const SUPABASE_URL = "https://fytwrvzwigkimbnujpke.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5dHdydnp3aWdraW1ibnVqcGtlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNTU4MjMsImV4cCI6MjA3NDczMTgyM30.4okRydCY0I0ftKo1zTVIOVHT8j1OW70BJW2uXHUfFDY";
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let currentUser = null;
 
 // === Navegação ===
@@ -18,9 +18,9 @@ async function login() {
   const p = document.getElementById("password").value.trim();
   if (!u || !p) return alert("Preencha todos os campos.");
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("login")
-    .select("id, nome, senha")   // ignorando "seguidores"
+    .select("id, nome, senha")
     .eq("nome", u)
     .eq("senha", p);
 
@@ -42,7 +42,10 @@ async function register() {
   const p = document.getElementById("password").value.trim();
   if (!u || !p) return alert("Preencha todos os campos.");
 
-  const { error } = await supabase.from("login").insert([{ nome: u, senha: p, seguidores: [] }]);
+  const { error } = await supabaseClient
+    .from("login")
+    .insert([{ nome: u, senha: p, seguidores: [] }]);
+
   if (error) return alert("Erro ao criar conta: " + error.message);
   alert("Conta criada com sucesso!");
 }
@@ -50,7 +53,7 @@ async function register() {
 // === SITES ===
 document.getElementById("search-sites").addEventListener("input", loadSites);
 async function loadSites() {
-  const { data, error } = await supabase.from("sites").select("*");
+  const { data, error } = await supabaseClient.from("sites").select("*");
   if (error) return alert("Erro ao carregar sites: " + error.message);
 
   const search = document.getElementById("search-sites").value.toLowerCase();
@@ -65,13 +68,12 @@ async function loadSites() {
 
 // === PESSOAS ===
 async function loadPessoas() {
-  const { data, error } = await supabase.from("login").select("*");
+  const { data, error } = await supabaseClient.from("login").select("*");
   if (error) return alert("Erro ao carregar pessoas: " + error.message);
 
   const list = document.getElementById("pessoas-list");
   list.innerHTML = "";
 
-  // Eu primeiro
   if (currentUser) list.appendChild(renderPessoa(currentUser, true));
 
   data.filter(p => !currentUser || p.id !== currentUser.id).forEach(p => {
@@ -88,7 +90,7 @@ function renderPessoa(pessoa, isMe) {
 
 // === CHAT GLOBAL ===
 async function loadChatGlobal() {
-  const { data, error } = await supabase.from("chat_global").select("*").order("created_at", { ascending: true });
+  const { data, error } = await supabaseClient.from("chat_global").select("*").order("created_at", { ascending: true });
   if (error) return alert("Erro ao carregar chat: " + error.message);
 
   const box = document.getElementById("chat-messages");
@@ -106,7 +108,7 @@ async function sendChat() {
   const text = document.getElementById("chat-text").value.trim();
   if (!text || !currentUser) return;
 
-  const { error } = await supabase.from("chat_global").insert([{ de: currentUser.nome, texto: text }]);
+  const { error } = await supabaseClient.from("chat_global").insert([{ de: currentUser.nome, texto: text }]);
   if (error) return alert("Erro enviando mensagem: " + error.message);
 
   document.getElementById("chat-text").value = "";
